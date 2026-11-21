@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Models;
+
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+// Student Account (domain model): name = fullName, created_at = memberSince
+#[Fillable([
+    'student_id',
+    'name',
+    'email',
+    'password',
+    'phone_number',
+    'campus_pickup_point',
+    'about',
+    'account_status',
+])]
+#[Hidden(['password', 'remember_token'])]
+class User extends Authenticatable
+{
+    /** @use HasFactory<UserFactory> */
+    use HasFactory, Notifiable;
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
+}
